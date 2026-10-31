@@ -1,0 +1,43 @@
+name: Publicar painel no GitHub Pages
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "painel-web/**"
+      - ".github/workflows/publicar-painel.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publicacao.outputs.page_url }}
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v6
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Preparar arquivos estáticos
+        run: |
+          mkdir -p _site
+          cp painel-web/index.html painel-web/dados.json _site/
+      - name: Enviar artefato para publicação
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Publicar no GitHub Pages
+        id: publicacao
+        uses: actions/deploy-pages@v4
