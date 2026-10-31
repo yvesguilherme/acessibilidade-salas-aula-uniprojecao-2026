@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Painel descritivo sobre acessibilidade, mobiliário e recursos visuais na universidade.">
-  <link rel="icon" href="data:,">
+  <link rel="icon" href="favicon-uniprojecao.svg" sizes="32x32" type="image/svg+xml">
+  <link rel="icon" href="favicon-uniprojecao.svg" sizes="192x192" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="favicon-uniprojecao.svg">
+  <meta name="msapplication-TileImage" content="favicon-uniprojecao.svg">
   <title>Acessibilidade na Universidade · Painel</title>
   <style>
     :root {
@@ -86,8 +89,9 @@
     .preenchimento { display: block; height: 100%; background: var(--cor-barra, var(--roxo)); }
     .detalhe-indicador { margin: 6px 0 0; color: var(--texto-suave); font-size: 13px; line-height: 1.4; }
     .lista-barras { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-    .linha-barra { display: grid; grid-template-columns: minmax(110px, 0.9fr) minmax(60px, 1.2fr) minmax(76px, auto); align-items: center; gap: 12px; }
-    .rotulo-barra { display: flex; align-items: flex-start; gap: 8px; color: var(--texto-secundario); font-size: 15px; line-height: 1.35; }
+    .linha-barra { display: grid; grid-template-columns: minmax(132px, 1fr) minmax(52px, 1fr) minmax(76px, auto); align-items: center; gap: 8px; }
+    .rotulo-barra { display: flex; min-width: 0; align-items: flex-start; gap: 8px; color: var(--texto-secundario); font-size: 15px; line-height: 1.35; }
+    .rotulo-barra > span:last-child { min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
     .rotulo-barra .amostra-cor { flex: 0 0 8px; margin-top: 2px; }
     .trilho-distribuicao { overflow: hidden; height: 14px; background: #0b0d14; }
     .valor-barra { color: var(--texto); font-size: 15px; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
@@ -115,6 +119,9 @@
     .linha-coleta { min-width: 0; padding-left: 16px; border-left: 1px solid var(--borda); }
     .linha-coleta .subtitulo-grafico { margin-bottom: 2px; }
     .linha-coleta .nota-grafico { margin-top: 4px; }
+    .legenda-circulacao { margin: 14px 0 12px; padding-top: 12px; border-top: 1px solid var(--borda); }
+    .legenda-circulacao .subtitulo-grafico { margin-bottom: 8px; font-size: 14px; }
+    .legenda-circulacao .legenda-faixas { margin: 0; }
     .lista-empilhada { display: grid; gap: 11px; margin: 0; padding: 0; list-style: none; }
     .linha-empilhada > header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
     .linha-empilhada strong { color: var(--texto); font-size: 15px; font-weight: 650; }
@@ -133,6 +140,7 @@
       .grade-paineis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .painel-geral, .painel-circulacao, .painel-visuais { grid-column: 1 / -1; }
       .painel-conforto, .painel-desconforto { grid-column: span 1; }
+      .linha-barra { grid-template-columns: minmax(120px, 1.2fr) minmax(48px, 0.8fr) minmax(56px, auto); gap: 8px; }
     }
     @media (max-width: 680px) {
       .pagina { padding: 0 10px 14px; }
@@ -157,7 +165,7 @@
       .linha-coleta { padding: 9px 0 0; border-top: 1px solid var(--borda); border-left: 0; }
       .lista-indicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 10px; }
       .grafico-pizza { flex-basis: 142px; width: 142px; height: 142px; }
-      .linha-barra { grid-template-columns: minmax(78px, 0.9fr) minmax(40px, 1fr) auto; gap: 6px; }
+      .linha-barra { grid-template-columns: minmax(120px, 1.2fr) minmax(40px, 0.8fr) minmax(48px, auto); gap: 6px; }
       .rodape { flex-direction: column; gap: 5px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -241,11 +249,15 @@
               <p>Respostas agrupadas por nível de impacto para facilitar a comparação.</p>
             </div>
           </header>
-          <ul class="legenda-faixas" aria-label="Legenda das faixas">
-            <li><span class="amostra-cor" style="--cor-amostra: var(--verde)"></span>Favorável ou baixo impacto</li>
-            <li><span class="amostra-cor" style="--cor-amostra: var(--amarelo)"></span>Regular ou atenção</li>
-            <li><span class="amostra-cor" style="--cor-amostra: var(--coral)"></span>Desfavorável ou alta dificuldade</li>
-          </ul>
+          <div id="circulacao-pizza"></div>
+          <div class="legenda-circulacao">
+            <h3 class="subtitulo-grafico">Legenda dos gráficos de barras</h3>
+            <ul class="legenda-faixas" aria-label="Legenda das barras de deslocamento e circulação">
+              <li><span class="amostra-cor" style="--cor-amostra: var(--verde)"></span>Favorável ou baixo impacto</li>
+              <li><span class="amostra-cor" style="--cor-amostra: var(--amarelo)"></span>Regular ou atenção</li>
+              <li><span class="amostra-cor" style="--cor-amostra: var(--coral)"></span>Desfavorável ou alta dificuldade</li>
+            </ul>
+          </div>
           <div id="circulacao-empilhada"></div>
           <p class="nota-grafico">As contagens ao lado do título seguem a ordem dos segmentos da barra. Categorias com menos de cinco respostas foram agrupadas; os percentuais somam 100%.</p>
         </article>
@@ -644,7 +656,14 @@
         desenharDistribuicao("conforto-cadeiras", dados.conforto_cadeiras, dados.total_respostas);
         desenharDistribuicao("desconforto-fisico", dados.desconforto_fisico, dados.total_respostas);
         desenharDistribuicao("dimensoes-cadeiras", dados.dimensoes_cadeiras, dados.total_respostas);
-        desenharFaixas("circulacao-empilhada", dados.circulacao);
+        const perguntasPizzaCirculacao = dados.circulacao.filter(function (pergunta) {
+          return pergunta.faixas.length === 2;
+        });
+        const perguntasBarrasCirculacao = dados.circulacao.filter(function (pergunta) {
+          return pergunta.faixas.length > 2;
+        });
+        desenharFaixas("circulacao-pizza", perguntasPizzaCirculacao);
+        desenharFaixas("circulacao-empilhada", perguntasBarrasCirculacao);
         desenharFaixas("recursos-visuais-empilhados", dados.recursos_visuais);
         document.getElementById("estado-carregamento").hidden = true;
       })
