@@ -47,8 +47,9 @@
       background: var(--cabecalho);
       color: #fff;
     }
-    .identidade-cabecalho { display: flex; min-width: 0; align-items: center; gap: 18px; }
+    .identidade-cabecalho { min-width: 0; flex: 1 1 auto; }
     .texto-cabecalho { min-width: 0; }
+    .grupo-metrica-logo { display: flex; flex: 0 0 auto; align-items: center; gap: 16px; }
     .logo-cabecalho { display: block; flex: 0 0 auto; width: 190px; height: auto; padding: 6px 9px; border: 1px solid var(--borda); background: var(--texto); }
     h1 { margin: 0; font-size: clamp(34px, 3vw, 46px); font-weight: 750; line-height: 1.12; letter-spacing: -0.025em; }
     .descricao-cabecalho { margin: 7px 0 0; color: var(--texto-secundario); font-size: 16px; }
@@ -136,10 +137,11 @@
     @media (max-width: 680px) {
       .pagina { padding: 0 10px 14px; }
       .cabecalho { align-items: stretch; flex-direction: column; gap: 8px; margin-right: -10px; margin-left: -10px; padding: 14px 12px; }
-      .identidade-cabecalho { width: 100%; align-items: flex-start; flex-direction: column; gap: 8px; }
+      .identidade-cabecalho { width: 100%; flex: 0 1 auto; }
       .texto-cabecalho { width: 100%; }
       .logo-cabecalho { width: 144px; padding: 4px 6px; }
-      .amostra { align-self: flex-end; gap: 4px; padding-left: 9px; }
+      .grupo-metrica-logo { align-self: flex-end; gap: 8px; }
+      .amostra { gap: 4px; padding-left: 9px; }
       .amostra strong { font-size: 30px; }
       h1 { font-size: clamp(28px, 7vw, 36px); }
       .descricao-cabecalho { max-width: 38ch; font-size: 14px; }
@@ -176,11 +178,13 @@
           <h1>Acessibilidade nas salas de aula</h1>
           <p class="descricao-cabecalho">MOBILIÁRIO · CIRCULAÇÃO · PROJEÇÃO DE SLIDES</p>
         </div>
-        <img class="logo-cabecalho" src="logo-uniprojecao.svg" alt="UniProjeção" width="227" height="48">
       </div>
-      <div class="amostra">
-        <strong id="total-respostas">30</strong>
-        <span>respostas</span>
+      <div class="grupo-metrica-logo">
+        <div class="amostra">
+          <strong id="total-respostas">30</strong>
+          <span>respostas</span>
+        </div>
+        <img class="logo-cabecalho" src="logo-uniprojecao.svg" alt="UniProjeção" width="227" height="48">
       </div>
     </header>
 
