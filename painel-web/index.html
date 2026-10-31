@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Painel descritivo sobre acessibilidade, mobiliário e recursos visuais na universidade.">
+  <link rel="icon" href="data:,">
+  <title>Acessibilidade na Universidade · Painel</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --fundo: #090b0a;
+      --superficie: #121714;
+      --borda: #37423b;
+      --texto: #f3f7f3;
+      --texto-secundario: #d1d9d2;
+      --texto-suave: #a8b3aa;
+      --roxo: #a7bd70;
+      --verde: #76b900;
+      --amarelo: #ffc83d;
+      --coral: #ff6b6b;
+      --foco: #c6ff58;
+      --cabecalho: #050705;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--fundo); }
+    body {
+      margin: 0;
+      background: var(--fundo);
+      color: var(--texto);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.45;
+    }
+    .pagina { width: min(1680px, 100%); margin: 0 auto; padding: 0 20px 20px; }
+    .cabecalho {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 104px;
+      margin: 0 -20px 16px;
+      padding: 16px 26px;
+      border-bottom: 4px solid var(--verde);
+      background: var(--cabecalho);
+      color: #fff;
+    }
+    h1 { margin: 0; font-size: clamp(34px, 3vw, 46px); font-weight: 750; line-height: 1.12; letter-spacing: -0.025em; }
+    .descricao-cabecalho { margin: 7px 0 0; color: #c6d0c7; font-size: 16px; }
+    .amostra { display: flex; align-items: baseline; gap: 8px; padding-left: 18px; border-left: 1px solid #48544b; white-space: nowrap; }
+    .amostra strong { color: #fff; font-size: 42px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .amostra span { color: #c6d0c7; font-size: 15px; }
+    .grade-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+    .cartao-kpi {
+      min-height: 116px;
+      padding: 17px 18px;
+      border: 1px solid var(--borda);
+      border-left: 4px solid var(--cor-indicador, var(--roxo));
+      background: var(--superficie);
+    }
+    .cartao-kpi h2 { margin: 0; color: var(--texto-secundario); font-size: 15px; font-weight: 650; line-height: 1.35; }
+    .valor-kpi { display: inline-block; margin-top: 7px; color: var(--texto); font-size: 38px; font-weight: 720; line-height: 1.05; font-variant-numeric: tabular-nums; }
+    .detalhe-kpi { display: inline-block; margin-left: 8px; color: var(--texto-suave); font-size: 14px; }
+    .grade-paineis { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 12px; }
+    .painel { min-width: 0; padding: 21px 22px; border: 1px solid var(--borda); background: var(--superficie); }
+    .painel-geral { grid-column: span 8; }
+    .painel-conforto { grid-column: span 4; }
+    .painel-desconforto, .painel-circulacao, .painel-visuais { grid-column: span 4; }
+    .resumo-conteudo { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; gap: 18px; }
+    .cabecalho-painel { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .cabecalho-painel h2 { margin: 0; font-size: 22px; font-weight: 700; line-height: 1.25; }
+    .cabecalho-painel p { max-width: 68ch; margin: 5px 0 0; color: var(--texto-suave); font-size: 15px; }
+    .lista-indicadores { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 16px; margin: 0; padding: 0; list-style: none; }
+    .resumo-conteudo .lista-indicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }
+    .indicador { min-width: 0; padding: 11px 0 10px; border-bottom: 1px solid var(--borda); }
+    .linha-indicador { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .rotulo-indicador { color: var(--texto); font-size: 15px; font-weight: 600; line-height: 1.4; }
+    .valor-indicador { flex: 0 0 auto; color: var(--coral); font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .trilho { overflow: hidden; height: 9px; margin-top: 9px; background: #29322c; }
+    .preenchimento { display: block; height: 100%; background: var(--cor-barra, var(--roxo)); }
+    .detalhe-indicador { margin: 6px 0 0; color: var(--texto-suave); font-size: 13px; line-height: 1.4; }
+    .lista-barras { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .linha-barra { display: grid; grid-template-columns: minmax(110px, 0.9fr) minmax(60px, 1.2fr) minmax(76px, auto); align-items: center; gap: 12px; }
+    .rotulo-barra { display: flex; align-items: flex-start; gap: 8px; color: var(--texto-secundario); font-size: 15px; line-height: 1.35; }
+    .rotulo-barra .amostra-cor { flex: 0 0 8px; margin-top: 2px; }
+    .trilho-distribuicao { overflow: hidden; height: 14px; background: #29322c; }
+    .valor-barra { color: var(--texto); font-size: 15px; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+    .valor-barra small { color: var(--texto-suave); font-size: 13px; }
+    .nota-grafico { margin: 12px 0 0; color: var(--texto-suave); font-size: 13px; line-height: 1.45; }
+    .divisor-distribuicao { margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--borda); }
+    .subtitulo-grafico { margin: 0 0 10px; color: var(--texto-secundario); font-size: 16px; font-weight: 650; }
+    .legenda-faixas { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 12px; padding: 0; list-style: none; }
+    .legenda-faixas li { display: inline-flex; align-items: center; gap: 7px; color: var(--texto-secundario); font-size: 14px; }
+    .amostra-cor { width: 10px; height: 10px; background: var(--cor-amostra); }
+    .visual-pizza { display: flex; align-items: center; gap: 15px; }
+    .grafico-pizza { display: block; flex: 0 0 168px; width: 168px; height: 168px; }
+    .legenda-pizza { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 0; list-style: none; }
+    .legenda-pizza li { display: grid; grid-template-columns: 10px minmax(0, 1fr); align-items: start; gap: 9px; color: var(--texto-secundario); font-size: 15px; line-height: 1.4; }
+    .legenda-pizza strong { display: block; color: var(--texto); font-size: 15px; font-variant-numeric: tabular-nums; }
+    .grafico-linha { width: 100%; }
+    .grafico-linha svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .grade-grafico { stroke: #344139; stroke-width: 1; }
+    .linha-grafico { fill: none; stroke: var(--verde); stroke-width: 3.5; }
+    .ponto-grafico { fill: var(--verde); stroke: #0c100d; stroke-width: 2; }
+    .texto-grafico { fill: var(--texto-suave); font-family: inherit; font-size: 15px; }
+    .valor-grafico { fill: var(--texto); font-family: inherit; font-size: 16px; font-weight: 700; }
+    .legenda-linha { display: inline-flex; align-items: center; gap: 8px; margin: 4px 0 0 38px; color: var(--texto-secundario); font-size: 14px; }
+    .amostra-linha { width: 20px; height: 4px; background: var(--verde); }
+    .linha-coleta { min-width: 0; padding-left: 16px; border-left: 1px solid var(--borda); }
+    .linha-coleta .subtitulo-grafico { margin-bottom: 2px; }
+    .linha-coleta .nota-grafico { margin-top: 4px; }
+    .lista-empilhada { display: grid; gap: 11px; margin: 0; padding: 0; list-style: none; }
+    .linha-empilhada > header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+    .linha-empilhada strong { color: var(--texto); font-size: 15px; font-weight: 650; }
+    .contagens-faixas { color: var(--texto-suave); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .barra-empilhada { display: flex; overflow: hidden; height: 34px; border: 1px solid #435047; background: #29322c; }
+    .segmento { display: flex; min-width: 0; align-items: center; justify-content: center; color: #101410; font-size: 13px; font-weight: 750; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .segmento + .segmento { border-left: 1px solid rgba(255, 255, 255, 0.8); }
+    .estado { margin: 12px 0 0; color: var(--texto-suave); font-size: 15px; }
+    .estado.erro { padding: 12px 14px; border: 1px solid #923f43; background: #261516; color: #ffd2d2; }
+    .rodape { display: flex; justify-content: space-between; gap: 16px; margin-top: 16px; padding: 12px 1px 0; border-top: 1px solid var(--borda); color: var(--texto-suave); font-size: 13px; }
+    .rodape p { margin: 0; }
+
+    @media (max-width: 1050px) {
+      .pagina { padding-right: 14px; padding-left: 14px; }
+      .cabecalho { margin-right: -14px; margin-left: -14px; }
+      .grade-paineis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .painel-geral, .painel-circulacao, .painel-visuais { grid-column: 1 / -1; }
+      .painel-conforto, .painel-desconforto { grid-column: span 1; }
+    }
+    @media (max-width: 680px) {
+      .pagina { padding: 0 10px 14px; }
+      .cabecalho { align-items: flex-start; margin-right: -10px; margin-left: -10px; padding: 14px 12px; }
+      .amostra { gap: 4px; padding-left: 9px; }
+      .amostra strong { font-size: 30px; }
+      h1 { font-size: clamp(28px, 7vw, 36px); }
+      .descricao-cabecalho { max-width: 38ch; font-size: 14px; }
+      .grade-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .cartao-kpi { min-height: 96px; padding: 12px; }
+      .cartao-kpi h2 { font-size: 13px; }
+      .valor-kpi { font-size: 30px; }
+      .detalhe-kpi { margin-left: 4px; font-size: 12px; }
+      .grade-paineis { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .painel-geral, .painel-conforto, .painel-desconforto, .painel-circulacao, .painel-visuais { grid-column: 1; }
+      .painel { padding: 16px; }
+      .resumo-conteudo { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .linha-coleta { padding: 9px 0 0; border-top: 1px solid var(--borda); border-left: 0; }
+      .lista-indicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 10px; }
+      .grafico-pizza { flex-basis: 142px; width: 142px; height: 142px; }
+      .linha-barra { grid-template-columns: minmax(78px, 0.9fr) minmax(40px, 1fr) auto; gap: 6px; }
+      .rodape { flex-direction: column; gap: 5px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="pagina">
+    <header class="cabecalho">
+      <div>
+        <h1>Acessibilidade nas salas de aula</h1>
+        <p class="descricao-cabecalho">Mobiliário · circulação · projeção</p>
+      </div>
+      <div class="amostra">
+        <strong id="total-respostas">30</strong>
+        <span>respostas</span>
+      </div>
+    </header>
+
+    <main>
+      <section id="cartoes-kpi" class="grade-kpis" aria-label="Indicadores gerais"></section>
+      <section class="grade-paineis" aria-label="Visualizações do painel">
+        <article class="painel painel-geral">
+          <header class="cabecalho-painel">
+            <div>
+              <h2>Resumo da pesquisa</h2>
+              <p>Critérios de atenção nas respostas válidas e total acumulado durante a coleta.</p>
+            </div>
+          </header>
+          <div class="resumo-conteudo">
+            <ol id="lista-indicadores" class="lista-indicadores"></ol>
+            <section class="linha-coleta" aria-label="Série temporal da coleta">
+              <h3 class="subtitulo-grafico">Respostas acumuladas</h3>
+              <div id="respostas-acumuladas"></div>
+              <p class="nota-grafico">Períodos agrupados para manter ao menos cinco respostas por ponto.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="painel painel-conforto">
+          <header class="cabecalho-painel">
+            <div>
+              <h2>Conforto e dimensões das cadeiras</h2>
+              <p>Avaliação de conforto e adequação das medidas.</p>
+            </div>
+          </header>
+          <div id="conforto-cadeiras"></div>
+          <p class="nota-grafico">Avaliações com menos de cinco respostas foram agrupadas.</p>
+          <div class="divisor-distribuicao">
+            <h3 class="subtitulo-grafico">As dimensões atendem às necessidades?</h3>
+            <div id="dimensoes-cadeiras"></div>
+          </div>
+        </article>
+
+        <article class="painel painel-desconforto">
+          <header class="cabecalho-painel">
+            <div>
+              <h2>Desconforto físico</h2>
+              <p>Frequência de desconforto durante as aulas devido ao mobiliário.</p>
+            </div>
+          </header>
+          <div id="desconforto-fisico"></div>
+          <p class="nota-grafico">Frequências com menos de cinco respostas foram agrupadas.</p>
+        </article>
+
+        <article class="painel painel-circulacao">
+          <header class="cabecalho-painel">
+            <div>
+              <h2>Deslocamento e circulação</h2>
+              <p>Respostas agrupadas por nível de impacto para facilitar a comparação.</p>
+            </div>
+          </header>
+          <ul class="legenda-faixas" aria-label="Legenda das faixas">
+            <li><span class="amostra-cor" style="--cor-amostra: var(--verde)"></span>Favorável ou baixo impacto</li>
+            <li><span class="amostra-cor" style="--cor-amostra: var(--amarelo)"></span>Regular ou atenção</li>
+            <li><span class="amostra-cor" style="--cor-amostra: var(--coral)"></span>Desfavorável ou alta dificuldade</li>
+          </ul>
+          <div id="circulacao-empilhada"></div>
+          <p class="nota-grafico">As contagens ao lado do título seguem a ordem dos segmentos da barra. Categorias com menos de cinco respostas foram agrupadas; os percentuais somam 100%.</p>
+        </article>
+
+        <article class="painel painel-visuais">
+          <header class="cabecalho-painel">
+            <div>
+              <h2>Leitura de slides e qualidade do projetor</h2>
+              <p>As respostas de frequência e avaliação foram agrupadas em três faixas comparáveis.</p>
+            </div>
+          </header>
+          <ul class="legenda-faixas" aria-label="Legenda das faixas">
+            <li><span class="amostra-cor" style="--cor-amostra: var(--verde)"></span>Favorável ou boa qualidade</li>
+            <li><span class="amostra-cor" style="--cor-amostra: var(--amarelo)"></span>Regular ou atenção</li>
+            <li><span class="amostra-cor" style="--cor-amostra: var(--coral)"></span>Desfavorável ou dificuldade</li>
+          </ul>
+          <div id="recursos-visuais-empilhados"></div>
+          <p class="nota-grafico">As contagens ao lado do título seguem a ordem dos segmentos da barra; os percentuais somam 100% por pergunta.</p>
+        </article>
+      </section>
+
+      <p id="estado-carregamento" class="estado" role="status">Carregando dados agregados do painel…</p>
+      <p id="mensagem-erro" class="estado" role="alert" hidden></p>
+    </main>
+
+    <footer class="rodape">
+      <p>Leitura descritiva das 30 respostas recebidas; os resultados não projetam a população da universidade.</p>
+    </footer>
+  </div>
+
+  <script>
+    const paletaBarras = {
+      coral: "var(--coral)",
+      amarelo: "var(--amarelo)",
+      verde: "var(--verde)",
+      roxo: "var(--roxo)"
+    };
+
+    function formatarPercentual(quantidade, total) {
+      if (!total) return "0%";
+      return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 })
+        .format((quantidade / total) * 100) + "%";
+    }
+
+    function desenharIndicadores(dados) {
+      const lista = document.getElementById("lista-indicadores");
+      dados.indicadores.forEach(function (indicador) {
+        const item = document.createElement("li");
+        item.className = "indicador";
+
+        const linha = document.createElement("div");
+        linha.className = "linha-indicador";
+
+        const rotulo = document.createElement("span");
+        rotulo.className = "rotulo-indicador";
+        rotulo.textContent = indicador.rotulo;
+
+        const valor = document.createElement("span");
+        valor.className = "valor-indicador";
+        valor.textContent = formatarPercentual(indicador.quantidade, indicador.total);
+
+        const trilho = document.createElement("div");
+        trilho.className = "trilho";
+        trilho.setAttribute("aria-hidden", "true");
+
+        const preenchimento = document.createElement("span");
+        preenchimento.className = "preenchimento";
+        preenchimento.style.width = formatarPercentual(indicador.quantidade, indicador.total);
+        preenchimento.style.setProperty("--cor-barra", indicador.cor ? paletaBarras[indicador.cor] : paletaBarras.coral);
+        trilho.appendChild(preenchimento);
+
+        const detalhe = document.createElement("p");
+        detalhe.className = "detalhe-indicador";
+        detalhe.textContent = indicador.quantidade + " de " + indicador.total + " respostas · " + indicador.criterio;
+
+        linha.append(rotulo, valor);
+        item.append(linha, trilho, detalhe);
+        lista.appendChild(item);
+      });
+    }
+
+    function criarElementoSvg(nome, atributos, texto) {
+      const espacoSvg = "http://www.w3.org/2000/svg";
+      const elemento = document.createElementNS(espacoSvg, nome);
+      Object.entries(atributos).forEach(function ([atributo, valor]) {
+        elemento.setAttribute(atributo, String(valor));
+      });
+      if (texto) elemento.textContent = texto;
+      return elemento;
+    }
+
+    function desenharGraficoPizza(conteiner, categorias, total) {
+      if (categorias.length !== 2 || total <= 0) return;
+
+      const descricoes = categorias.map(function (categoria) {
+        return categoria.rotulo + ": " + categoria.quantidade + " de " + total + " respostas (" +
+          formatarPercentual(categoria.quantidade, total) + ")";
+      });
+      const grafico = criarElementoSvg("svg", {
+        class: "grafico-pizza",
+        viewBox: "0 0 100 100",
+        role: "img",
+        "aria-label": descricoes.join("; ")
+      });
+      const circunferencia = 2 * Math.PI * 35;
+      const proporcaoPrimeira = categorias[0].quantidade / total;
+      const arcoPrimeiro = circunferencia * proporcaoPrimeira;
+      const maiorFaixa = categorias.reduce(function (maior, categoria) {
+        return categoria.quantidade > maior.quantidade ? categoria : maior;
+      });
+
+      grafico.appendChild(criarElementoSvg("circle", {
+        cx: 50,
+        cy: 50,
+        r: 35,
+        fill: "none",
+        stroke: paletaBarras[categorias[1].cor],
+        "stroke-width": 18
+      }));
+      grafico.appendChild(criarElementoSvg("circle", {
+        cx: 50,
+        cy: 50,
+        r: 35,
+        fill: "none",
+        stroke: paletaBarras[categorias[0].cor],
+        "stroke-width": 18,
+        "stroke-dasharray": arcoPrimeiro + " " + (circunferencia - arcoPrimeiro),
+        transform: "rotate(-90 50 50)"
+      }));
+      grafico.appendChild(criarElementoSvg("text", {
+        x: 50,
+        y: 54,
+        "text-anchor": "middle",
+        class: "valor-grafico"
+      }, formatarPercentual(maiorFaixa.quantidade, total)));
+
+      const legenda = document.createElement("ul");
+      legenda.className = "legenda-pizza";
+      categorias.forEach(function (categoria) {
+        const item = document.createElement("li");
+        const amostra = document.createElement("span");
+        amostra.className = "amostra-cor";
+        amostra.style.setProperty("--cor-amostra", paletaBarras[categoria.cor]);
+
+        const detalhes = document.createElement("span");
+        detalhes.append(document.createTextNode(categoria.rotulo));
+        const quantidade = document.createElement("strong");
+        quantidade.textContent = categoria.quantidade + " respostas · " +
+          formatarPercentual(categoria.quantidade, total);
+        detalhes.appendChild(quantidade);
+        item.append(amostra, detalhes);
+        legenda.appendChild(item);
+      });
+
+      const visual = document.createElement("div");
+      visual.className = "visual-pizza";
+      visual.append(grafico, legenda);
+      conteiner.appendChild(visual);
+    }
+
+    function desenharGraficoLinha(identificador, periodos, total) {
+      const conteiner = document.getElementById(identificador);
+      const largura = 460;
+      const altura = 150;
+      const margemEsquerda = 40;
+      const margemDireita = 18;
+      const topo = 12;
+      const base = 108;
+      const escalaVertical = base - topo;
+      let acumulado = 0;
+      const pontos = periodos.map(function (periodo) {
+        acumulado += periodo.quantidade;
+        return { rotulo: periodo.rotulo, quantidade: acumulado };
+      });
+      const intervaloHorizontal = (largura - margemEsquerda - margemDireita) /
+        Math.max(pontos.length - 1, 1);
+      const coordenadas = pontos.map(function (ponto, indice) {
+        const x = pontos.length === 1
+          ? largura / 2
+          : margemEsquerda + indice * intervaloHorizontal;
+        const y = base - (ponto.quantidade / total) * escalaVertical;
+        return { x: x, y: y, ponto: ponto };
+      });
+      const rotuloAcessivel = pontos.map(function (ponto) {
+        return ponto.rotulo + ": " + ponto.quantidade + " respostas acumuladas";
+      }).join("; ");
+      const grafico = criarElementoSvg("svg", {
+        viewBox: "0 0 " + largura + " " + altura,
+        role: "img",
+        "aria-label": rotuloAcessivel
+      });
+
+      [0, 1, 2, 3].forEach(function (marcacao) {
+        const y = base - (marcacao / 3) * escalaVertical;
+        grafico.appendChild(criarElementoSvg("line", {
+          x1: margemEsquerda,
+          y1: y,
+          x2: largura - margemDireita,
+          y2: y,
+          class: "grade-grafico"
+        }));
+        grafico.appendChild(criarElementoSvg("text", {
+          x: margemEsquerda - 7,
+          y: y + 3,
+          "text-anchor": "end",
+          class: "texto-grafico"
+        }, String(Math.round(total * marcacao / 3))));
+      });
+
+      grafico.appendChild(criarElementoSvg("polyline", {
+        points: coordenadas.map(function (coordenada) {
+          return coordenada.x + "," + coordenada.y;
+        }).join(" "),
+        class: "linha-grafico"
+      }));
+      coordenadas.forEach(function (coordenada) {
+        const ponto = criarElementoSvg("circle", {
+          cx: coordenada.x,
+          cy: coordenada.y,
+          r: 5,
+          class: "ponto-grafico"
+        });
+        ponto.appendChild(criarElementoSvg("title", {}, coordenada.ponto.rotulo + ": " +
+          coordenada.ponto.quantidade + " respostas acumuladas"));
+        grafico.appendChild(ponto);
+        grafico.appendChild(criarElementoSvg("text", {
+          x: coordenada.x,
+          y: coordenada.y - 9,
+          "text-anchor": "middle",
+          class: "valor-grafico"
+        }, String(coordenada.ponto.quantidade)));
+        grafico.appendChild(criarElementoSvg("text", {
+          x: coordenada.x,
+          y: base + 17,
+          "text-anchor": "middle",
+          class: "texto-grafico"
+        }, coordenada.ponto.rotulo));
+      });
+
+      const legenda = document.createElement("div");
+      legenda.className = "legenda-linha";
+      const amostra = document.createElement("span");
+      amostra.className = "amostra-linha";
+      legenda.append(amostra, document.createTextNode("Respostas acumuladas"));
+
+      const visual = document.createElement("div");
+      visual.className = "grafico-linha";
+      visual.append(grafico, legenda);
+      conteiner.appendChild(visual);
+    }
+
+    function desenharDistribuicao(identificador, categorias, total) {
+      if (categorias.length === 2) {
+        desenharGraficoPizza(document.getElementById(identificador), categorias, total);
+        return;
+      }
+
+      const lista = document.createElement("ol");
+      lista.className = "lista-barras";
+
+      categorias.forEach(function (categoria) {
+        const item = document.createElement("li");
+        item.className = "linha-barra";
+        item.setAttribute(
+          "aria-label",
+          categoria.rotulo + ": " + categoria.quantidade + " de " + total + " respostas, " +
+            formatarPercentual(categoria.quantidade, total)
+        );
+
+        const rotulo = document.createElement("span");
+        rotulo.className = "rotulo-barra";
+        const amostra = document.createElement("span");
+        amostra.className = "amostra-cor";
+        amostra.style.setProperty("--cor-amostra", paletaBarras[categoria.cor]);
+        const textoRotulo = document.createElement("span");
+        textoRotulo.textContent = categoria.rotulo;
+        rotulo.append(amostra, textoRotulo);
+
+        const trilho = document.createElement("div");
+        trilho.className = "trilho-distribuicao";
+        trilho.setAttribute("aria-hidden", "true");
+
+        const preenchimento = document.createElement("span");
+        preenchimento.className = "preenchimento";
+        preenchimento.style.width = formatarPercentual(categoria.quantidade, total);
+        preenchimento.style.setProperty("--cor-barra", paletaBarras[categoria.cor]);
+        trilho.appendChild(preenchimento);
+
+        const valor = document.createElement("span");
+        valor.className = "valor-barra";
+        valor.textContent = categoria.quantidade + " ";
+        const percentual = document.createElement("small");
+        percentual.textContent = "· " + formatarPercentual(categoria.quantidade, total);
+        valor.appendChild(percentual);
+
+        item.append(rotulo, trilho, valor);
+        lista.appendChild(item);
+      });
+
+      document.getElementById(identificador).appendChild(lista);
+    }
+
+    function desenharFaixas(identificador, perguntas) {
+      const lista = document.createElement("ul");
+      lista.className = "lista-empilhada";
+
+      perguntas.forEach(function (pergunta) {
+        if (pergunta.faixas.length === 2) {
+          const itemPizza = document.createElement("li");
+          itemPizza.className = "linha-empilhada";
+          const tituloPizza = document.createElement("strong");
+          tituloPizza.textContent = pergunta.rotulo;
+          itemPizza.appendChild(tituloPizza);
+          desenharGraficoPizza(itemPizza, pergunta.faixas, pergunta.total);
+          lista.appendChild(itemPizza);
+          return;
+        }
+
+        const item = document.createElement("li");
+        item.className = "linha-empilhada";
+        const cabecalho = document.createElement("header");
+        const rotulo = document.createElement("strong");
+        rotulo.textContent = pergunta.rotulo;
+
+        const contagens = document.createElement("span");
+        contagens.className = "contagens-faixas";
+        contagens.textContent = pergunta.faixas.map(function (faixa) {
+          return faixa.quantidade;
+        }).join(" · ") + " respostas";
+        cabecalho.append(rotulo, contagens);
+
+        const barra = document.createElement("div");
+        barra.className = "barra-empilhada";
+        barra.setAttribute("role", "img");
+        barra.setAttribute("aria-label", pergunta.rotulo + ": " + pergunta.faixas.map(function (faixa) {
+          return faixa.rotulo + ", " + faixa.quantidade + " de " + pergunta.total + " respostas (" +
+            formatarPercentual(faixa.quantidade, pergunta.total) + ")";
+        }).join("; "));
+
+        pergunta.faixas.forEach(function (faixa) {
+          const segmento = document.createElement("span");
+          segmento.className = "segmento";
+          segmento.style.width = pergunta.total
+            ? ((faixa.quantidade / pergunta.total) * 100).toFixed(4) + "%"
+            : "0%";
+          segmento.style.backgroundColor = paletaBarras[faixa.cor];
+          segmento.title = faixa.rotulo + ": " + faixa.quantidade + " de " + pergunta.total +
+            " respostas (" + formatarPercentual(faixa.quantidade, pergunta.total) + ")";
+          if (faixa.quantidade / pergunta.total >= 0.14) {
+            segmento.textContent = formatarPercentual(faixa.quantidade, pergunta.total);
+          }
+          barra.appendChild(segmento);
+        });
+
+        item.append(cabecalho, barra);
+        lista.appendChild(item);
+      });
+
+      document.getElementById(identificador).appendChild(lista);
+    }
+
+    function desenharCartoes(dados) {
+      document.getElementById("total-respostas").textContent = dados.total_respostas;
+      const cartoes = document.getElementById("cartoes-kpi");
+      dados.indicadores_kpi.forEach(function (indicador) {
+        const cartao = document.createElement("article");
+        cartao.className = "cartao-kpi";
+        cartao.style.setProperty("--cor-indicador", paletaBarras[indicador.cor]);
+
+        const titulo = document.createElement("h2");
+        titulo.textContent = indicador.rotulo;
+        const valor = document.createElement("strong");
+        valor.className = "valor-kpi";
+        valor.textContent = indicador.tipo === "quantidade"
+          ? String(indicador.quantidade)
+          : formatarPercentual(indicador.quantidade, indicador.total);
+        const detalhe = document.createElement("span");
+        detalhe.className = "detalhe-kpi";
+        detalhe.textContent = indicador.detalhe;
+
+        cartao.append(titulo, valor, detalhe);
+        cartoes.appendChild(cartao);
+      });
+    }
+
+    fetch("dados.json")
+      .then(function (resposta) {
+        if (!resposta.ok) throw new Error("Não foi possível carregar dados.json.");
+        return resposta.json();
+      })
+      .then(function (dados) {
+        desenharCartoes(dados);
+        desenharIndicadores(dados);
+        desenharGraficoLinha("respostas-acumuladas", dados.respostas_por_periodo, dados.total_respostas);
+        desenharDistribuicao("conforto-cadeiras", dados.conforto_cadeiras, dados.total_respostas);
+        desenharDistribuicao("desconforto-fisico", dados.desconforto_fisico, dados.total_respostas);
+        desenharDistribuicao("dimensoes-cadeiras", dados.dimensoes_cadeiras, dados.total_respostas);
+        desenharFaixas("circulacao-empilhada", dados.circulacao);
+        desenharFaixas("recursos-visuais-empilhados", dados.recursos_visuais);
+        document.getElementById("estado-carregamento").hidden = true;
+      })
+      .catch(function () {
+        const mensagem = document.getElementById("mensagem-erro");
+        mensagem.textContent = "Não foi possível carregar os dados do painel. Inicie o servidor local seguindo o arquivo INSTRUCOES.md.";
+        mensagem.classList.add("erro");
+        document.getElementById("estado-carregamento").hidden = true;
+      });
+  </script>
+</body>
+</html>
