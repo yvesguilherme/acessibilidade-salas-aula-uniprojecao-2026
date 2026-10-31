@@ -1,0 +1,147 @@
+{
+  "total_respostas": 30,
+  "respostas_por_periodo": [
+    { "rotulo": "Dia 1", "quantidade": 5 },
+    { "rotulo": "Dia 2", "quantidade": 6 },
+    { "rotulo": "Dias 3–4", "quantidade": 19 }
+  ],
+  "indicadores_kpi": [
+    {
+      "rotulo": "Respostas recebidas",
+      "tipo": "quantidade",
+      "quantidade": 30,
+      "detalhe": "formulários da pesquisa",
+      "cor": "roxo"
+    },
+    {
+      "rotulo": "Desconforto com mobiliário",
+      "tipo": "percentual",
+      "quantidade": 21,
+      "total": 30,
+      "detalhe": "ao menos às vezes",
+      "cor": "coral"
+    },
+    {
+      "rotulo": "Dificuldade com slides",
+      "tipo": "percentual",
+      "quantidade": 19,
+      "total": 30,
+      "detalhe": "ao menos às vezes",
+      "cor": "coral"
+    },
+    {
+      "rotulo": "Cadeiras avaliadas negativamente",
+      "tipo": "percentual",
+      "quantidade": 12,
+      "total": 30,
+      "detalhe": "ruim ou muito ruim",
+      "cor": "amarelo"
+    }
+  ],
+  "indicadores": [
+    {
+      "rotulo": "Desconforto físico durante as aulas",
+      "quantidade": 21,
+      "total": 30,
+      "criterio": "às vezes, frequentemente ou sempre",
+      "cor": "coral"
+    },
+    {
+      "rotulo": "Dificuldade para ler slides",
+      "quantidade": 19,
+      "total": 30,
+      "criterio": "às vezes, frequentemente ou sempre",
+      "cor": "coral"
+    },
+    {
+      "rotulo": "Cadeiras avaliadas como ruim ou muito ruim",
+      "quantidade": 12,
+      "total": 30,
+      "criterio": "soma das duas avaliações negativas",
+      "cor": "amarelo"
+    },
+    {
+      "rotulo": "Dificuldade com rampas",
+      "quantidade": 12,
+      "total": 30,
+      "criterio": "às vezes, frequentemente ou sempre",
+      "cor": "amarelo"
+    },
+    {
+      "rotulo": "Deslocamento entre andares difícil",
+      "quantidade": 5,
+      "total": 30,
+      "criterio": "difícil ou muito difícil",
+      "cor": "verde"
+    },
+    {
+      "rotulo": "Impacto médio ou muito alto da ausência de elevadores",
+      "quantidade": 5,
+      "total": 30,
+      "criterio": "soma dos dois níveis de maior impacto",
+      "cor": "verde"
+    }
+  ],
+  "conforto_cadeiras": [
+    { "rotulo": "Muito ruim ou ruim", "quantidade": 12, "cor": "coral" },
+    { "rotulo": "Regular", "quantidade": 11, "cor": "roxo" },
+    { "rotulo": "Boa", "quantidade": 7, "cor": "verde" }
+  ],
+  "desconforto_fisico": [
+    { "rotulo": "Nunca ou raramente", "quantidade": 9, "cor": "verde" },
+    { "rotulo": "Às vezes", "quantidade": 14, "cor": "amarelo" },
+    { "rotulo": "Frequentemente ou sempre", "quantidade": 7, "cor": "coral" }
+  ],
+  "dimensoes_cadeiras": [
+    { "rotulo": "Atendem", "quantidade": 23, "cor": "verde" },
+    { "rotulo": "Não atendem", "quantidade": 7, "cor": "coral" }
+  ],
+  "circulacao": [
+    {
+      "rotulo": "Impacto da ausência de elevadores",
+      "total": 30,
+      "faixas": [
+        { "rotulo": "Sem barreira ou baixo impacto", "quantidade": 25, "cor": "verde" },
+        { "rotulo": "Impacto moderado ou elevado", "quantidade": 5, "cor": "coral" }
+      ]
+    },
+    {
+      "rotulo": "Facilidade de deslocamento entre andares",
+      "total": 30,
+      "faixas": [
+        { "rotulo": "Fácil ou muito fácil", "quantidade": 17, "cor": "verde" },
+        { "rotulo": "Regular", "quantidade": 8, "cor": "amarelo" },
+        { "rotulo": "Difícil ou muito difícil", "quantidade": 5, "cor": "coral" }
+      ]
+    },
+    {
+      "rotulo": "Dificuldade adicional com rampas",
+      "total": 30,
+      "faixas": [
+        { "rotulo": "Nunca ou raramente", "quantidade": 18, "cor": "verde" },
+        { "rotulo": "Às vezes", "quantidade": 6, "cor": "amarelo" },
+        { "rotulo": "Frequentemente ou sempre", "quantidade": 6, "cor": "coral" }
+      ]
+    }
+  ],
+  "recursos_visuais": [
+    {
+      "rotulo": "Dificuldade para ler os slides",
+      "total": 30,
+      "faixas": [
+        { "rotulo": "Nunca ou raramente", "quantidade": 11, "cor": "verde" },
+        { "rotulo": "Às vezes", "quantidade": 12, "cor": "amarelo" },
+        { "rotulo": "Frequentemente ou sempre", "quantidade": 7, "cor": "coral" }
+      ]
+    },
+    {
+      "rotulo": "Qualidade visual do projetor",
+      "total": 30,
+      "faixas": [
+        { "rotulo": "Boa", "quantidade": 10, "cor": "verde" },
+        { "rotulo": "Regular", "quantidade": 13, "cor": "amarelo" },
+        { "rotulo": "Ruim ou muito ruim", "quantidade": 7, "cor": "coral" }
+      ]
+    }
+  ]
+}
