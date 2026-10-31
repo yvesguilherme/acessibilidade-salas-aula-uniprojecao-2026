@@ -29,15 +29,15 @@ jobs:
       - name: Baixar o repositório
         uses: actions/checkout@v6
       - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Preparar arquivos estáticos
         run: |
           mkdir -p _site
           cp painel-web/index.html painel-web/dados.json _site/
       - name: Enviar artefato para publicação
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
       - name: Publicar no GitHub Pages
         id: publicacao
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
