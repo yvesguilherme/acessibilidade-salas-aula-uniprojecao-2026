@@ -33,7 +33,7 @@ jobs:
       - name: Preparar arquivos estáticos
         run: |
           mkdir -p _site
-          cp painel-web/index.html painel-web/dados.json _site/
+          cp painel-web/index.html painel-web/dados.json painel-web/logo-uniprojecao.svg _site/
       - name: Enviar artefato para publicação
         uses: actions/upload-pages-artifact@v5
         with:
